@@ -1,1 +1,1 @@
-# Simon_target_capture_pipeline
+# Simon Target Capture Pipeline
