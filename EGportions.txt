@@ -1,5 +1,0 @@
-CDHIT filter CDHIT.py
-ortholog assigner UPhO.py 
-
-
-Redo alibaseq on parsed blast files, align (Script 3) Final_alibaseq
