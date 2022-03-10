@@ -8,13 +8,13 @@ Pipeline steps:
 
 ...
 
-Use 'folder_blast.sh' to Make BLAST databases of your reference genome(s) and search them. (?)
+Use `folder_blast.sh` to Make BLAST databases of your reference genome(s) and search them. (?)
 
-Use 'alibaseq_and_align.sh' to parse blast files and pull out matching contigs twice (with flanks included the second time). Contigs without flanks are aligned for upstream use in orthology refinement.
+Use `alibaseq_and_align.sh` to parse blast files and pull out matching contigs twice (with flanks included the second time). Contigs without flanks are aligned for upstream use in orthology refinement.
 
-Use 'CDHIT.py' to cluster and eliminate redundant sequences or close in-paralogs.
+Use `CDHIT.py` to cluster and eliminate redundant sequences or close in-paralogs.
 
-Use 'UPhO.py' to cluster into putative ortholog groups and eliminate paralogs updating blast files.
+Use `UPhO.py` to cluster into putative ortholog groups and eliminate paralogs updating blast files.
 
 Use `ref_genome_blast.sh` to find loci with paralogs that were missed by UPhO.
 
