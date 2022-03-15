@@ -53,8 +53,6 @@ echo -e "Cleaning temporary files"
 rm *oneline
 rm *.temp
 rm *.cdhit
-#count how many merged ......84 with 100%, 331 with 99%, 429 with 98%, 512 with 97% , 603 with 95%, 809 with 90%...817 with 80  5083 total
-grep ^1 *cdhit.clstr | wc
 #remove empty merged files
 find ./cdhit$clt2/ -size  0 -print -delete
 
