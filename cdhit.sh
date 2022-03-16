@@ -14,6 +14,7 @@ echo -e "Example: cdhit.sh ./M_noflanks_out/aligned"
 echo -e "Converting multiline fasta files into single line temporary fasta files" 
 for x in *.fas
 do
+#replace end of line to string concurrent sequence lines together
 awk '/^>/ {printf("\n%s\n",$0);next; } { printf("%s",$0);}  END {printf("\n");}' < $x > "$x".oneline
 done
 
@@ -21,10 +22,13 @@ done
 echo -e "Running CDHIT on all contigs with multiple representatives from one taxon per alignment " 
 #stripped clt
 clt2=$(echo $clt | cut  -d. -f 2)
+module load cdhit/4.6.8
+#loop across all loci
 for x in *.fas
 do
-#add taxa with duplicates to taxa array
+#add taxa with duplicates to temporary taxa file
 grep ">" $x | cut -f 1 -d "|" | sort | uniq -d > "x".taxa
+#read temporary taxa file and perform cd-hit on all sequences from the same taxon
 IFS=$'\n' read  -d'' -r -a taxa  < "x".taxa
 for i in "${taxa[@]}"
 do
@@ -43,9 +47,10 @@ echo -e "Splicing remaining contigs into merged files"
 for x in *.fas
 do
 w=$( echo $x | cut -f 1 -d .)
-#contigs to get rid of 
-rm=$(grep ^1 ./cdhit$clt2/"$x"*.cdhit.clstr | cut -f 2 -d " " | sed 's/\.\.\.//g' - | cut -f 2 -d "|")
+#Find secondary contigs to get remove per taxon per locus (those consisting of the second and shorter sequence that is above the threshold of matching)
+rm=$(grep -E -v  '^>|^0' ./cdhit$clt2/"$x"*.cdhit.clstr | cut -f 2 -d " " | sed 's/\.\.\.//g' - | cut -f 2 -d "|")
 rm2=$(echo $rm | sed  's/ /|/g')
+#Delete secondary contigs and print remaining sequences to new merged file
 awk '/('$rm2')/{getline;next}{print}' $x.oneline > ./cdhit$clt2/$w'.merged.fas'
 done
 
@@ -59,9 +64,29 @@ find ./cdhit$clt2/ -size  0 -print -delete
  
 #count how many merged 
 f=$(grep ^1 ./cdhit$clt2/*cdhit.clstr | wc -l)
-echo -e $f "files with some contigs removed"
+echo -e $f "files with some secondary contigs more than" $clt2 "% identical removed"
 
-# look for files retaining duplicates still 
+echo -e "condensing merged files and old files into finalcdhit folder"
+#Overwrite old files with new merged files into processed folder and then into new folder for next step 
+mkdir ../processedcdhit$clt2/
+cd  ./cdhit$clt2/
+for x in *.merged.fas
+do 
+y=$(echo $x | cut -f 1 -d .)
+#echo $y
+cp $x ../processedcdhit$clt2/$y.fas
+done
+cd ..
+mkdir finalcdhit
+cp *.fas ./finalcdhit/
+cp ./processedcdhit$clt2/*.fas ./finalcdhit/
+cd ./finalcdhit
+
+echo -e "creating list of loci to process with UpHO in uphofiles.txt"
+# look for files retaining duplicates and store for next step in upho.files.txt
 for x in *.fas; do echo $x; grep ">" $x | cut -f 1 -d "|" | sort | uniq -d ; done > dupcount.txt
 grep -B 1 ">" dupcount.txt | grep -r ^L - > upho.files.txt
+sed -i 's/.fas//g' upho.files.txt
+
+
 
