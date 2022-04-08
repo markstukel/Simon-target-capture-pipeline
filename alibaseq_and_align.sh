@@ -12,6 +12,9 @@ f='300'
 # set thread number
 t='32'
 
+#alibaseq path
+ali_path='/home/FCAM/egordon/alibaseq/alibaseq.py'
+
 
 
 #Usage message
@@ -27,18 +30,18 @@ then
 
 else
   echo "Running no flanks alibaseq"
-  python /home/FCAM/egordon/alibaseq/alibaseq.py -b $1 -f M -x s -t $2 -e $e --ac aa-tdna -c 0
+  python $ali_path -b $1 -f M -x s -t $2 -e $e --ac aa-tdna -c 0
   echo "Creating no flanks output folder \"$3_no_flanks_out\" and moving output and log files"
   mv alibaseq_out $3_noflanks_out
   mkdir $3_noflanks_out/logs
   mv *default* $3_noflanks_out/logs
   echo "Running" $f "bp flanks alibaseq"
-  python /home/FCAM/egordon/alibaseq/alibaseq.py -b $1 -f M -x s --fl $f -t $2 -e $e --ac aa-tdna -c 0
+  python  $ali_path -b $1 -f M -x s --fl $f -t $2 -e $e --ac aa-tdna -c 0
   echo "Creating "$f "bp flanks output folder \"$3_$fbpflanks_out\" and moving output and log files"
   mv alibaseq_out $3_$fbpflanks_out
   mkdir $3_$fbpflanks_out/logs
   mv *default* $3_$fbpflanks_out/logs
-  echo "Aligning no flanks alibaseq output in subdirectory aligned folder with 32 threads"
+  echo "Aligning no flanks alibaseq output in subdirectory aligned folder with" $t "threads"
   cd $3_noflanks_out
   mkdir aligned
   for x in *.fas
