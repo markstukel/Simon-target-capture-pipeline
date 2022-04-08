@@ -12,8 +12,15 @@ f='300'
 # set thread number
 t='32'
 
+
 #alibaseq path
-ali_path='/home/FCAM/egordon/alibaseq/alibaseq.py'
+#Check if set in wrapper script and if so do not override
+if [ -z ${ali_path+x} ];
+ then echo "var was unset"
+ ali_path='/home/FCAM/egordon/alibaseq/alibaseq.py'; 
+ else echo "alibaseq path is set to '$ali_path'"; 
+fi
+
 
 
 #Usage message
