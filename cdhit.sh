@@ -1,7 +1,7 @@
 #Script that uses cdhit to cluster and eliminate redundant sequences or close in-paralogs
-#requires seqkit and cdhit/4.6.8
+#requires cdhit/4.6.8
 #Takes aligned folder of no flanks output of many .fas files 
-#Outputs locus file with removed contigs as Lx.merged.fas
+#Outputs locus file with removed contigs as Lx.merged.fas within cdhit# folder then overwrites new files and combines with old files into finalcdhit folder
 #Internal adjustable defaults cluster threshold at 97% 
 #clt=.97
 echo -e "Example: cdhit.sh ./M_noflanks_out/aligned"
@@ -82,11 +82,8 @@ cp *.fas ./finalcdhit/
 cp ./processedcdhit$clt2/*.fas ./finalcdhit/
 cd ./finalcdhit
 
-echo -e "creating list of loci to process with UpHO in uphofiles.txt"
-# look for files retaining duplicates and store for next step in upho.files.txt
-for x in *.fas; do echo $x; grep ">" $x | cut -f 1 -d "|" | sort | uniq -d ; done > dupcount.txt
-grep -B 1 ">" dupcount.txt | grep -r ^L - > upho.files.txt
-sed -i 's/.fas//g' upho.files.txt
-
-
-
+echo -e "checking list of loci with mutliple contigs per taxon to process with UpHO"
+# look for files retaining duplicates still 
+for x in *.fas; do echo $x; grep ">" $x | cut -f 1 -d "|" | sort | uniq -d | grep -B 1 ">" | grep -r ^L -; done > upho.files.txt
+z=$(wc -l upho.files.txt)
+echo -e $z "remaining loci with mutliple contigs per taxon to process with UpHO"
