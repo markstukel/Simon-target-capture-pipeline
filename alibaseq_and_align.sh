@@ -5,7 +5,7 @@
 
 
 ##Defaults:
-#Set evlaue
+#Set evalue
 e='1e-15'
 # set flank size
 f='300'
