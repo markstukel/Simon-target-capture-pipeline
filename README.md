@@ -20,4 +20,4 @@ Use `ref_genome_blast.sh` to find loci with paralogs that were missed by UPhO.
 
 Use `paralog_remover.sh` to remove missed paralogs from the post-UPhO BLAST files.
 
-Use `final_alibaseq_align.sh` to run ALiBaSeq using the post-UPhO BLAST files.
+Use `final_alibaseq_and_align.sh` to run ALiBaSeq using the post-UPhO BLAST files.
