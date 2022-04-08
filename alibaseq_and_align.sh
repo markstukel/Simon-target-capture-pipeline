@@ -6,12 +6,11 @@
 
 ##Defaults:
 #Set evlaue
-e=1e-15
+e='1e-15'
 # set flank size
-f=300
+f='300'
 # set thread number
-t=32
-
+t='32'
 
 
 
@@ -33,9 +32,9 @@ else
   mv alibaseq_out $3_noflanks_out
   mkdir $3_noflanks_out/logs
   mv *default* $3_noflanks_out/logs
-  echo "Running 300 bp flanks alibaseq"
+  echo "Running" $f "bp flanks alibaseq"
   python /home/FCAM/egordon/alibaseq/alibaseq.py -b $1 -f M -x s --fl $f -t $2 -e $e --ac aa-tdna -c 0
-  echo "Creating 300 bp flanks output folder \"$3_300bpflanks_out\" and moving output and log files"
+  echo "Creating "$f "bp flanks output folder \"$3_$fbpflanks_out\" and moving output and log files"
   mv alibaseq_out $3_$fbpflanks_out
   mkdir $3_$fbpflanks_out/logs
   mv *default* $3_$fbpflanks_out/logs
