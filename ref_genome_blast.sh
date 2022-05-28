@@ -16,10 +16,10 @@ else
   mkdir blast_results/
 
   #Make list of loci files for queries
-  loci=$(ls $1/*.fas | rev | cut -f1 -d/ | rev)
+  loci=$(ls $1/*.fas | rev | cut -f1 -d/ | rev | awk '$1=$1' ORS=' ')
 
   #Make list of reference genome blast dbs
-  db=$(ls $2/*.fasta | rev | cut -f1 -d/ | rev)
+  db=$(ls $2/*.fasta | rev | cut -f1 -d/ | rev | awk '$1=$1' ORS=' ')
 
   #Blast each locus query against each reference genome blast db
   for x in $loci; do 
