@@ -1,13 +1,13 @@
 #Script that uses UPHO to cluster and eliminate redundant sequences or close in-paralogs
 #requires UPHO, seqkit
-###Requires folder with final cdhit proccesed loci files, blast results folder 
+###Requires folder with final cdhit proccesed loci files, blast results folder, minimum number of taxa in a new cluster to include as new locus
 ###Outputs updated blast files in new_blastfiles folder for reprocessing and alignments post upho split by paralogs in post_upho_alignments
 
 Upho_path=/home/FCAM/jvailionis/programs/UPhO/UPhO.py
 module load seqkit
 
 
-echo -e "Example: Upho.sh ~/Cicada_raw_reads/M_noflanks_out/aligned/finalcdhit /labs/Simon/AHE/Magicicada_AHE_processing/blast_results "
+echo -e "Example: Upho.sh ~/Cicada_raw_reads/M_noflanks_out/aligned/finalcdhit /labs/Simon/AHE/Magicicada_AHE_processing/blast_results 10"
 cd $1
 
 
@@ -53,10 +53,10 @@ for locus in $(ls L*.fas | sed 's/\..*//'); do
 				echo $locus upho, multiple clusters
 				while read -r line; do
 					IFS=',' read -ra a <<< "$line"
-					if [ "${#a[@]}" -gt 27 ]; then
+					if [ "${#a[@]}" -gt #3 ]; then
 						cluster_num=$(( $(echo "${a[0]}" | sed 's/#_//') +1 ))
 						for seq in "${a[@]:1}"; do
-							ass_name="$(cut -f 1 -d '|' <<< $seq | sed 's/_fasta/.fasta/')"
+							ass_name="$(cut -f 1 -d '|' <<< $seq | sed 's/_/./')"
 							node="$(cut -f 2 -d '|' <<< $seq | sed -r 's/(.*)_/\1./')"
 							#echo $locus $ass_name $node $cluster_num
 							grep "$locus" $2/"$ass_name".blast | grep "$node" | sed 's/'"$locus"'/'"$locus"'_'"$cluster_num"'/' >> new_blastfiles/"$ass_name".blast
