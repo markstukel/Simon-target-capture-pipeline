@@ -12,6 +12,7 @@ echo -e "Example: cdhit.sh ./M_noflanks_out/aligned"
 # merge files will be empty if nothing accomplished
 # make multiline fasta into single line fasta for each file
 echo -e "Converting multiline fasta files into single line temporary fasta files" 
+cd $1
 for x in *.fas
 do
 #replace end of line to string concurrent sequence lines together
