@@ -69,8 +69,8 @@ echo -e $f "files with some secondary contigs more than" $clt2 "% identical remo
 
 echo -e "condensing merged files and old files into finalcdhit folder"
 #Overwrite old files with new merged files into processed folder and then into new folder for next step 
-mkdir ../processedcdhit$clt2/
 cd  ./cdhit$clt2/
+mkdir ../processedcdhit$clt2/
 for x in *.merged.fas
 do 
 y=$(echo $x | cut -f 1 -d .)
