@@ -86,5 +86,7 @@ cd ./finalcdhit
 echo -e "checking list of loci with mutliple contigs per taxon to process with UpHO"
 # look for files retaining duplicates still 
 for x in *.fas; do echo $x; grep ">" $x | cut -f 1 -d "|" | sort | uniq -d | grep -B 1 ">" | grep -r ^L -; done > upho.files.txt
+#Remove .fas extension from upho.files.txt
+sed -i 's/.fas//g' upho.files.txt
 z=$(wc -l upho.files.txt)
 echo -e $z "remaining loci with mutliple contigs per taxon to process with UpHO"
