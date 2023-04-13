@@ -53,7 +53,7 @@ for locus in $(ls L*.fas | sed 's/\..*//'); do
 				echo $locus upho, multiple clusters
 				while read -r line; do
 					IFS=',' read -ra a <<< "$line"
-					if [ "${#a[@]}" -gt #3 ]; then
+					if [ "${#a[@]}" -gt $3 ]; then
 						cluster_num=$(( $(echo "${a[0]}" | sed 's/#_//') +1 ))
 						for seq in "${a[@]:1}"; do
 							ass_name="$(cut -f 1 -d '|' <<< $seq | sed 's/_/./')"
