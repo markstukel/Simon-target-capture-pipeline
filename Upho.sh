@@ -56,8 +56,8 @@ for locus in $(ls L*.fas | sed 's/\..*//'); do
 					if [ "${#a[@]}" -gt $3 ]; then
 						cluster_num=$(( $(echo "${a[0]}" | sed 's/#_//') +1 ))
 						for seq in "${a[@]:1}"; do
-							ass_name="$(cut -f 1 -d '|' <<< $seq | sed 's/_/./')"
-							node="$(cut -f 2 -d '|' <<< $seq | sed -r 's/(.*)_/\1./')"
+							ass_name="$(cut -f 1 -d '|' <<< $seq | sed 's/_/./g')"
+							node="$(cut -f 2 -d '|' <<< $seq | sed -r 's/(.*)_/\1./g')"
 							#echo $locus $ass_name $node $cluster_num
 							grep "$locus" $2/"$ass_name".blast | grep "$node" | sed 's/'"$locus"'/'"$locus"'_'"$cluster_num"'/' >> new_blastfiles/"$ass_name".blast
 							seqkit grep -p "$ass_name"'|'"$node" "$locus".fas >> post_upho_alignments/"$locus"_"$cluster_num".fas
