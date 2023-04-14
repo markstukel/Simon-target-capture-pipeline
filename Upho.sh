@@ -46,7 +46,7 @@ for locus in $(ls L*.fas | sed 's/\..*//'); do
 				for blastfile in $2/*.fasta.blast; do
 					outname="$(sed 's|.*/||' <<< $blastfile)"
 					grep "$locus" "$blastfile" | grep -f <(awk '$1=$1' RS="," "$locus".Upho.nr.csv | tail -n +2 | cut -f 2 -d '|' | sed -r 's/(.*)_/\1./') >> new_blastfiles/$outname
-					seqkit grep -f <(awk '$1=$1' RS="," "$locus".Upho.nr.csv | tail -n +2 | sed 's/_fasta/.fasta/' | sed -r 's/(.*)_/\1./') "$locus".fas > post_upho_alignments/"$locus".fas 
+					seqkit grep -f <(awk '$1=$1' RS="," "$locus".Upho.nr.csv | tail -n +2 | sed 's/_contigs_fasta/.contigs.fasta/' | sed -r 's/(.*)_/\1./') "$locus".fas > post_upho_alignments/"$locus".fas 
 				done
 			else
 				#### UPHO GAVE MULTIPLE CLUSTERS
