@@ -35,6 +35,7 @@ for i in "${taxa[@]}"
 do
 san=$(echo $i| cut -f 2 -d ">")
 grep -A 1 -h $san "$x".oneline > "$x"."$san".temp
+sed -i 's/-//g' "$x"."$san".temp
 cd-hit-est -i "$x"."$san".temp -o "$x"."$san".cdhit -c $clt -G 0 -A 15 -aS .01 -aL 0.01 -d 80
 done
 done
